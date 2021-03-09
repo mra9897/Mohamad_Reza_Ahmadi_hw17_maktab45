@@ -1,0 +1,24 @@
+******** 1 **********
+SELECT e1.full_name AS Name, e1.role, e2.full_name AS Manager FROM employees e1
+JOIN employees e2 ON e1.boss_id = e2.id
+WHERE e1.role_level > 1
+
+
+********* 2 *********
+SELECT e1.full_name AS Name, e1.role, e2.full_name AS Manager FROM employees e1
+LEFT OUTER JOIN employees e2 ON e1.boss_id = e2.id
+
+
+
+********** 3 ************
+SELECT e1.* FROM employees e1 
+LEFT JOIN employees e2 
+ON e1.id = e2.boss_id 
+WHERE e2.boss_id IS NULL
+
+
+********** 4 ************
+SELECT e1.*, COUNT(e1.id) AS zir_dastan FROM employees e1
+JOIN employees e2
+ON e1.id = e2.boss_id
+GROUP BY e2.boss_id

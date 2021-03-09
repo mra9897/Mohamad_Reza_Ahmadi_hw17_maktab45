@@ -1,0 +1,188 @@
+<% data = Object.keys(data).length === 0 ? {company: {}, employees: []} : data %>
+<% const hasAdmin = Object.keys(data.company.has_admin).length === 0 ? 0 : data.company.has_admin._id %>
+<div class="container pb-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mt-4">
+                <h5 class="card-header bg-dark-green text-light d-flex justify-content-between">
+                    <i class="fa fa-industry align-self-center pe-2"></i>
+                    <input type="text" id="name" placeholder="Company name" class="hidden-input w-100" value="<%= data.company.name %>" disabled>
+                    <button class="btn btn-light" id="edit">
+                        <i class="fa fa-pencil-alt"></i>
+                    </button>
+                </h5>
+                <div class="card-body bg-gradient-green">
+                    <div class="card-text">
+                        <ul class="list-group">
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-city"></i>
+                                    Province:
+                                </b>
+                                <input id="province" class="form-control" value="<%= data.company.province %>">
+                            </li>
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-city"></i>
+                                    City:
+                                </b>
+                                <input id="city" class="form-control" value="<%= data.company.city %>">
+                            </li>
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-barcode"></i>
+                                    Register code:
+                                </b>
+                                <input id="register_code" class="form-control" value="<%= data.company.register_code %>">
+                            </li>
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-calendar-alt"></i>
+                                    Register date:
+                                </b>
+                                <input id="register_date" class="form-control persian-date-picker" value="<%= data.company.register_date %>">
+                            </li>
+                            <li class="list-group-item  bg-transparent text-light">
+                                <b>
+                                    <i class="fa fa-phone-square"></i>
+                                    Phone:
+                                </b>
+                                <input id="phone" class="form-control" value="<%= data.company.phone %>">
+                            </li>
+                            <input type="hidden" id="company-id" value="<%= data.company.id %>">
+                        </ul>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <a href="/company/all" class="btn btn-light">
+                                <i class="fa fa-angle-left"></i>
+                                 Back
+                            </a>
+                        </div>
+                        <div class="col-9 direction-right" id="buttons"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="w-100 px-3 mt-4">
+                <button class="btn bg-green <%if(Object.keys(data.company).length === 0) {%> d-none <%}%>" id="addEmployee">
+                    <i class="fa fa-user-plus"></i>
+                    add employee
+                </button>
+            </div>
+            <div class="employees mt-2">
+                <% for(let employee of data.employees){ %>
+                    <div class="row id-card text-light m-3 p-2" data-id="<%= employee._id %>">
+                        <div class="col-8">
+                            <ul class="list-group text-light">
+                                <li class="list-group-item bg-transparent">
+                                    <b>
+                                        <i class="fa fa-pen"></i>
+                                        Name:
+                                    </b>
+                                    <%= employee.first_name + " " + employee.last_name %>
+                                </li>
+                                <li class="list-group-item bg-transparent">
+                                    <b>
+                                        <i class="fa fa-id-card"></i>
+                                        National Code:
+                                    </b>
+                                    <%= employee.national_code %>
+                                </li>
+                                <li class="list-group-item bg-transparent">
+                                    <b>
+                                        <i class="fa fa-female"></i>
+                                        <i class="fa fa-male"></i>
+                                        gender:
+                                    </b>
+                                    <%= employee.gender %>
+                                </li>
+                                <li class="list-group-item bg-transparent">
+                                    <b>
+                                        <i class="fa fa-calendar-alt"></i>
+                                        Birth Day:
+                                    </b>
+                                    <span class="register_date"
+                                          data-date="<%= `${employee.birth_date.getFullYear()}-${employee.birth_date.getMonth()}-${employee.birth_date.getDate()}` %>">
+                                </span>
+                                </li>
+                                <li class="list-group-item bg-transparent">
+                                    <b>
+                                        <i class="fa fa-user-astronaut"></i>
+                                        Admin:
+                                    </b>
+                                    <%= employee.is_admin %>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-4 d-flex align-items-center">
+                            <i class="fa fa-user w-100"></i>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade employee-modal" tabindex="-1" role="dialog" aria-labelledby="employee-modal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body row">
+                <div class="col-md-6">
+                    <label for="first_name">First Name:</label>
+                    <input type="text" class="form-control" id="first_name">
+                </div>
+                <div class="col-md-6">
+                    <label for="last_name">Last Name:</label>
+                    <input type="text" class="form-control" id="last_name">
+                </div>
+                <div class="col-md-6">
+                    <label for="national_code">National Code:</label>
+                    <input type="text" class="form-control" id="national_code">
+                </div>
+                <div class="col-md-6">
+                    <label for="birth_date">Birth Date:</label>
+                    <input type="text" class="form-control persian-date-picker" id="birth_date">
+                    <input type="hidden" id="birth_date_value">
+                </div>
+                <div class="col-md-6">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" class="form-control">
+                        <option value="male">male</option>
+                        <option value="female">female</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <input type="hidden" id="company_has_admin" data-admin="<%=hasAdmin%>">
+                    <label for="is_admin">Admin:</label>
+                    <select id="is_admin" class="form-control">
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select>
+                </div>
+                <div class="col-12 d-none" id="has_admin_true">
+                    <div class="alert alert-warning mt-3">
+                        this company has a manager, you have to fire old manager or dismiss new one! :/
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" id="employeeSubmit">
+                    Submit
+                    <i class="fa fa-check"></i>
+                </button>
+                <button class="btn btn-danger" id="employeeDelete">
+                    Delete
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

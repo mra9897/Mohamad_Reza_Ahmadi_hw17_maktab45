@@ -1,0 +1,59 @@
+<div class="row pb-5">
+    <div class="row">
+        <form action="" method="get" class="d-flex justify-content-between">
+            <div class="col-8">
+                <input type="text" id="startDate" class="form-control w-25 d-inline" placeholder="start date">
+                <input type="hidden" name="startDate" class="startDate">
+                <input type="text" id="endDate" class="form-control w-25 d-inline" placeholder="end date">
+                <input type="hidden" name="endDate" class="endDate">
+                <input type="submit" value="Search" class="btn btn-primary">
+            </div>
+            <a href="/company/single?type=add" class="btn bg-green" id="add">
+                <i class="fa fa-plus"></i> add company
+            </a>
+        </form>
+    </div>
+    <% for(let company of data){ %>
+        <div class="col-6">
+            <div class="card mt-4">
+                <h5 class="card-header bg-dark-green text-light">
+                    <i class="fa fa-industry"></i>
+                    <%= company.name %>
+                </h5>
+                <div class="card-body bg-gradient-green">
+                    <div class="card-text">
+                        <ul class="list-group text-light">
+                            <li class="list-group-item bg-transparent">
+                                <b>
+                                    <i class="fa fa-city"></i>
+                                    City:
+                                </b>
+                                <%= company.province + " - " + company.city %>
+                            </li>
+                            <li class="list-group-item bg-transparent">
+                                <b>
+                                    <i class="fa fa-barcode"></i>
+                                    Register code:
+                                </b>
+                                <%= company.register_code %>
+                            </li>
+                            <li class="list-group-item bg-transparent">
+                                <b>
+                                    <i class="fa fa-calendar-alt"></i>
+                                    Register date:
+                                </b>
+                                <span class="register_date"
+                                   data-date="<%= `${company.register_date.getFullYear()}-${company.register_date.getMonth()}-${company.register_date.getDate()}` %>">
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href="/company/single/<%= company.id %>" class="btn bg-green mt-3">
+                        <i class="fa fa-stream"></i>
+                        Read More
+                    </a>
+                </div>
+            </div>
+        </div>
+    <% } %>
+</div>
