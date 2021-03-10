@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MR.A | HW16</title>
+    <style>
+        body{direction: rtl}
+        img{
+            display: block;
+            width: 60%;
+            margin: auto;
+        }
+        code{
+            width: 80%;
+            margin: 5px auto;
+            display: block;
+            padding: 8px 5px;
+            border: 2px solid darkorange;
+            background: #f1c40f;
+            border-radius: 5px;
+            direction: ltr;
+        }
+        div{
+            border-bottom: 3px dashed;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>نمودار ER این مسئله را رسم کنید.</h2>
+        <a href="./ER.png" target="_blank"><img src="./ER.png" alt=""></a>
+    </div>
+    <div>
+        <h2>یک پرس وجو بنویسید که لیست کارمندان (به جز مدیرعامل) را به همراه نام مدیر ایشان چاپ کند.</h2>
+        <a href="./1.Employees-without-ceo.png" target="_blank"><img src="./1.Employees-without-ceo.png" alt=""></a>
+        <code>
+            SELECT e1.full_name AS Name, e1.role, e2.full_name AS Manager FROM employees e1
+            JOIN employees e2 ON e1.boss_id = e2.id
+            WHERE e1.role_level > 1
+        </code>
+    </div>
+    <div>
+        <h2>یک پرس وجو بنویسید که لیست همه کارمندان (از جمله مدیرعامل) را به همراه نام مدیر ایشان چاپ کند. برای
+            مدیر عامل، جلوی نام باید Null چاپ شود.</h2>
+        <a href="./2.Employees-with-ceo.png" target="_blank"><img src="./2.Employees-with-ceo.png" alt=""></a>
+        <code>
+            SELECT e1.full_name AS Name, e1.role, e2.full_name AS Manager FROM employees e1
+            LEFT OUTER JOIN employees e2 ON e1.boss_id = e2.id
+        </code>
+    </div>
+    <div>
+        <h2>یک پرس وجو بنویسید که نام کارمندانی که زیر دست ندارند را چاپ کند.</h2>
+        <a href="./3.Employees.png" target="_blank"><img src="./3.Employees.png" alt=""></a>
+        <code>
+            SELECT e1.* FROM employees e1
+            LEFT JOIN employees e2
+            ON e1.id = e2.boss_id
+            WHERE e2.boss_id IS NULL
+        </code>
+    </div>
+    <div>
+        <h2>یک پرس وجو بنویسید که برای هر کارمند، تعداد کارمندان زیر دست وی را چاپ کند.</h2>
+        <a href="./4.Managers-employee.png" target="_blank"><img src="./4.Managers-employee.png" alt=""></a>
+        <code>
+            SELECT e1.*, COUNT(e1.id) AS zir_dastan FROM employees e1
+            JOIN employees e2
+            ON e1.id = e2.boss_id
+            GROUP BY e2.boss_id
+        </code>
+    </div>
+</body>
+</html>
