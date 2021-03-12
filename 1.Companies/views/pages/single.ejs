@@ -1,5 +1,5 @@
 <% data = Object.keys(data).length === 0 ? {company: {}, employees: []} : data %>
-<% const hasAdmin = Object.keys(data.company.has_admin).length === 0 ? 0 : data.company.has_admin._id %>
+<% const hasAdmin = Object.keys(data.company).length === 0 ? 0 : data.company.has_admin._id %>
 <div class="container pb-5">
     <div class="row">
         <div class="col-md-6">
