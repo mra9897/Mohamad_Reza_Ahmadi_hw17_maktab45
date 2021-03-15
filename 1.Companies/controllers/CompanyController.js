@@ -14,8 +14,8 @@ const create = (req, res) => {
     const newCompany = new Company(data);
 
     return newCompany.save((err, company) => {
-        if (err) res.json(_error(err.message));
-        res.json({result: 1});
+        if (err) return res.json(_error(err.message));
+        return res.json({result: 1});
     });
 }
 const all = (req, res) => {
@@ -37,7 +37,7 @@ const single = (req, res) => {
     if (!id) return res.render('index', {page: 'single'});
     return Company.find({_id: id}).populate('companyId').exec((err, company) => {
         if (err) return res.json(_error(err.message));
-        if(!company.length) return res.status(404).json(_error("not found"));
+        if(!company.length) return res.render('404');
         Employee.find({companyId: new objectID(company[0]._id)}, (err, employees) => {
             if (err) res.json(_error(err.message));
             let hasAdmin = employees.find(emp => emp.is_admin === true);
@@ -66,9 +66,12 @@ const update = (req, res) => {
 const remove = (req, res) => {
     const id = req.params.id;
     if (!id) res.json(_error("id not set"));
-    return Company.deleteOne({_id: id}, (err, company) => {
-        if (err) res.json(_error(err.message));
-        res.json({result: company.ok});
+    return Company.deleteOne({_id: id}, err => {
+        if (err) {
+            console.log(err.message);
+            res.json(_error(err.message));
+        }
+        res.json({result: 1});
     });
 }
 const _validate = data => {

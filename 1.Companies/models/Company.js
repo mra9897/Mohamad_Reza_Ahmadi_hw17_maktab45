@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-module.exports = mongoose.model('Company', new mongoose.Schema({
+const Employee = require('./Employee');
+
+const CompanySchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -21,4 +24,13 @@ module.exports = mongoose.model('Company', new mongoose.Schema({
         default: Date.now()
     },
     updated_at: Date
-}));
+});
+
+CompanySchema.pre('deleteOne', function (next){
+    Employee.deleteMany({companyId: this._conditions._id}, err=>{
+        if(err) return next(err);
+        return next();
+    });
+});
+
+module.exports = mongoose.model('Company', CompanySchema);
